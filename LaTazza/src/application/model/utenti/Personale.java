@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+
 import application.utils.Euro;
 import connectionDB.ConnectionFactory;
 
@@ -156,7 +157,22 @@ public class Personale {
 	public boolean diminuisciDebito(Persona pers, Euro ammontare) {
 		if(!pers.diminuisciDebito(ammontare))
 			return false;
-		return pagamentiDebito.add(new PagamentoDebito(pers, ammontare));
+		try {
+		Connection connection = ConnectionFactory.getConnection();
+		PagamentoDebito pd = new PagamentoDebito(pers, ammontare);
+		PreparedStatement ps = connection.prepareStatement("INSERT INTO PagamentoDidebito VALUES ( ?, ? ,? )");
+		ps.setString(1, pers.getNome());
+		ps.setInt(2, (int) ammontare.getValore());
+		ps.setDate(3, (java.sql.Date) pd.getDate());
+		int i = ps.executeUpdate();
+		if(i==1) {
+		pagamentiDebito.add(pd);
+		return true;
+		}
+		}catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+		return false;
 	}
 	
 	public String print() {
