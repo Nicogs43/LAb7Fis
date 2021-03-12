@@ -5,14 +5,23 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 public class ConnectionFactory {
 
+    private static final String URL = "jdbc:h2:~/Lab7fis";
+    private static final String USER = "Unige";
+    private static final String PASS = "latazza";
 
+	public static String getUrl() {
+		return URL;
+	}
+	public static String getUser() {
+		return USER;
+	}
+	public static String getPass() {
+		return PASS;
+	}
 	/**
 	 * Connect to Database
 	 */
 
-	    public static final String URL = "jdbc:h2:~/Lab7fis";
-	    public static final String USER = "Unige";
-	    public static final String PASS = "latazza";
 
 	    /**
 	     * Get a connection to database
@@ -22,18 +31,9 @@ public class ConnectionFactory {
 	    {
 	      try {
 	          DriverManager.registerDriver(new Driver());
-	          return DriverManager.getConnection(URL, USER, PASS);
+	          return DriverManager.getConnection(getUrl(), getUser(), getPass());
 	      } catch (SQLException ex) {
 	          throw new RuntimeException("Error connecting to the database", ex);
 	      }
 	    }
-	    /**
-	     * Test Connection
-	     */
-	    public static void main(String[] args) {
-	        @SuppressWarnings("unused")
-			Connection connection = ConnectionFactory.getConnection();
-	    }
-
-
 }
