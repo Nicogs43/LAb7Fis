@@ -59,13 +59,13 @@ public class Personale {
 		      //Connection connection = ConnectionFactory.getConnection();
 		      try {
 		    	  Statement stmt = connection.createStatement();
-		          ResultSet rs = stmt.executeQuery("SELECT * FROM PagamentoDiDebito");  
+		          ResultSet rs = stmt.executeQuery("SELECT * FROM Paga");  
 		          while(rs.next()) {
 		        	 String Nome = rs.getString("NomePersona");
 		        	 Integer Debito = rs.getInt("Ammontare");
-		        	 Date Data = rs.getDate("Data");
-		        	 pagamentiDebito.add(new PagamentoDebito(new Persona(Nome),new Euro(0,Debito), Data));
-
+		        	 //Date Data = rs.getDate("Data");
+		        	 Long Data = rs.getLong("Data");
+		        	 pagamentiDebito.add(new PagamentoDebito(new Persona(Nome),new Euro(0,Debito), new Date(Data)));
 		          }
 		      } catch (SQLException ex) {
 		          ex.printStackTrace();
@@ -158,18 +158,19 @@ public class Personale {
 		if(!pers.diminuisciDebito(ammontare))
 			return false;
 		try {
-		Connection connection = ConnectionFactory.getConnection();
-		PagamentoDebito pd = new PagamentoDebito(pers, ammontare);
-		PreparedStatement ps = connection.prepareStatement("INSERT INTO PagamentoDidebito VALUES ( ?, ? ,? )");
-		ps.setString(1, pers.getNome());
-		ps.setInt(2, (int) ammontare.getValore());
-		ps.setDate(3, (java.sql.Date) pd.getDate());
-		int i = ps.executeUpdate();
-		if(i==1) {
-		pagamentiDebito.add(pd);
-		return true;
+			Connection connection = ConnectionFactory.getConnection();
+			PagamentoDebito pd = new PagamentoDebito(pers, ammontare);
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO PagamentoDiDebito VALUES ( ?, ? ,? )");
+			ps.setString(1, pers.getNome());
+			ps.setInt(2, (int) ammontare.getValore());
+			ps.setLong(3, pd.getEpoch());
+			int i = ps.executeUpdate();
+			if(i==1) {
+				pagamentiDebito.add(pd);
+				return true;
+			}
 		}
-		}catch (SQLException ex) {
+		catch (SQLException ex) {
 	        ex.printStackTrace();
 	    }
 		return false;
