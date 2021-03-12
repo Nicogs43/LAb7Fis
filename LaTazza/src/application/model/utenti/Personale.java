@@ -56,7 +56,6 @@ public class Personale {
 		          ex.printStackTrace();
 		      }
 		      
-		      //Connection connection = ConnectionFactory.getConnection();
 		      try {
 		    	  Statement stmt = connection.createStatement();
 		          ResultSet rs = stmt.executeQuery("SELECT * FROM Paga");  
@@ -70,6 +69,8 @@ public class Personale {
 		      } catch (SQLException ex) {
 		          ex.printStackTrace();
 		      }
+		      
+		      
 		      /*while ((sCurrentLine = br.readLine()) != null) {
 		    	if(sCurrentLine.equals("PAGAMENTO")){
 		    		  while ((sCurrentLine = br.readLine()) != null) {
