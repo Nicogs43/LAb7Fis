@@ -144,7 +144,7 @@ public class Personale {
 			return false;
 		return pagamentiDebito.add(new PagamentoDebito(pers, ammontare));
 	}
-	
+	//PROVA PROVA
 	
 	public String print() {
 		String personaleString="PERSONALE\n";
