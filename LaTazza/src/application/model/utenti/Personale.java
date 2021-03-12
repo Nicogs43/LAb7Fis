@@ -56,14 +56,7 @@ public class Personale {
 		      }
 
 		      while ((sCurrentLine = br.readLine()) != null) {
-		    	 /* if(sCurrentLine.equals("PERSONALE")){
-		    		  while ((sCurrentLine = br.readLine()) != null) {
-		    			  if(sCurrentLine.equals(""))
-		    				  break;
-		    			  String[] persona = sCurrentLine.split(" ");
-		    			  personale.add(new Persona(persona[0], new Euro(0,Integer.valueOf(persona[1]))));
-		    		  }
-		    	  }*/if(sCurrentLine.equals("PAGAMENTO")){
+		    	if(sCurrentLine.equals("PAGAMENTO")){
 		    		  while ((sCurrentLine = br.readLine()) != null) {
 		    			  if(sCurrentLine.equals(""))
 		    				  return;
