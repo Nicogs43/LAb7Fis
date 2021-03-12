@@ -70,7 +70,7 @@ public class Persona extends Cliente {
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				Integer Debito = rs.getInt("Debito");
-				if (euro.getValore() < 0 || euro.getValore() > Debito) {
+				if (euro.getValore() > 0 && euro.getValore() <= Debito) {
 					debito.sottrai(euro);
 					PreparedStatement ps1 = connection.prepareStatement("UPDATE Persona SET Debito =? WHERE Nome = ?");
 					ps1.setString(2, this.getNome());
