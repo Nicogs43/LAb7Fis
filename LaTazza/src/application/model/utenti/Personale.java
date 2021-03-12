@@ -41,7 +41,7 @@ public class Personale {
 		try (BufferedReader br = new BufferedReader( 
 				new InputStreamReader(new FileInputStream(path), Charset.forName("UTF-8")))) {
 
-		      String sCurrentLine;
+		      //String sCurrentLine;
 		      Connection connection = ConnectionFactory.getConnection();
 		      try {
 		    	  Statement stmt = connection.createStatement();
@@ -54,8 +54,22 @@ public class Personale {
 		      } catch (SQLException ex) {
 		          ex.printStackTrace();
 		      }
+		      
+		      //Connection connection = ConnectionFactory.getConnection();
+		      try {
+		    	  Statement stmt = connection.createStatement();
+		          ResultSet rs = stmt.executeQuery("SELECT * FROM PagamentoDiDebito");  
+		          while(rs.next()) {
+		        	 String Nome = rs.getString("NomePersona");
+		        	 Integer Debito = rs.getInt("Ammontare");
+		        	 Date Data = rs.getDate("Data");
+		        	 pagamentiDebito.add(new PagamentoDebito(new Persona(Nome),new Euro(0,Debito), Data));
 
-		      while ((sCurrentLine = br.readLine()) != null) {
+		          }
+		      } catch (SQLException ex) {
+		          ex.printStackTrace();
+		      }
+		      /*while ((sCurrentLine = br.readLine()) != null) {
 		    	if(sCurrentLine.equals("PAGAMENTO")){
 		    		  while ((sCurrentLine = br.readLine()) != null) {
 		    			  if(sCurrentLine.equals(""))
@@ -64,7 +78,7 @@ public class Personale {
 		    			  pagamentiDebito.add(new PagamentoDebito(new Persona(persona[1]),new Euro(0,Integer.valueOf(persona[2])),new Date(Long.parseLong(persona[0]))));
 		    		  }
 		    	  }
-		      }
+		      }*/
 		    } catch (IOException e) {
 		    }
 	}
