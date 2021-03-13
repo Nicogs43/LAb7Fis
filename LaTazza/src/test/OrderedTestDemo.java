@@ -86,7 +86,6 @@ class OrderedTestsDemo {
 		Persona p = new Persona("persona1");
 		personale.removePersona(p);
 		assertEquals(personale.getPersonale().size(),i-1);
-		
 	}
 
 }
