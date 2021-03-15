@@ -55,7 +55,7 @@ class OrderedTestsDemo {
 				p.aumentaDebito(new Euro(5));
 			}
 		}
-		assertEquals(personale.getIndebitati().size(), i + 1);
+		assertEquals(personale.getIndebitati().size(), i+1);
 		personale.diminuisciDebito(p, new Euro(5));
 		personale.removePersona(p);
 	}
@@ -81,8 +81,8 @@ class OrderedTestsDemo {
 		i = personale.getPersonale().size();
 		Persona p = new Persona("persona1");
 		personale.addPersona(p.getNome());
+		assertEquals(personale.getPersonale().size(), i+1);
 		personale.removePersona(p);
-		assertEquals(personale.getPersonale().size(), i);
 	}
 
 }
