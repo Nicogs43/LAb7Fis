@@ -58,6 +58,14 @@ public class Personale {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		
+		finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 
@@ -76,7 +84,13 @@ public class Personale {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-
+		finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 
 	}
@@ -106,6 +120,13 @@ public class Personale {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
@@ -124,14 +145,21 @@ public class Personale {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return personaleConDebiti;
 	}
 
 	public boolean diminuisciDebito(Persona pers, Euro ammontare) {
 		if (!pers.diminuisciDebito(ammontare))
 			return false;
+		Connection connection = ConnectionFactory.getConnection();
 		try {
-			Connection connection = ConnectionFactory.getConnection();
 			PagamentoDebito pd = new PagamentoDebito(pers, ammontare);
 			PreparedStatement ps = connection.prepareStatement("INSERT INTO PagamentoDiDebito VALUES ( ?, ? ,? )");
 			ps.setString(1, pers.getNome());
@@ -144,6 +172,13 @@ public class Personale {
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
+		}
+		finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 	}

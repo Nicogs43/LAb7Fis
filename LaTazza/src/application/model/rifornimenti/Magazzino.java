@@ -5,10 +5,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import application.model.utenti.Persona;
+import application.utils.Euro;
 import application.utils.TipoCialda;
+import connectionDB.ConnectionFactory;
 
 public class Magazzino {
 	
@@ -17,10 +25,10 @@ public class Magazzino {
 	HashMap<TipoCialda, Integer> mag=new HashMap<TipoCialda,Integer>();
 	
 	public Magazzino() {	
-		mag.put(TipoCialda.caff√®, 0);
-		mag.put(TipoCialda.caff√®Arabica, 0);
-		mag.put(TipoCialda.th√®, 0);
-		mag.put(TipoCialda.th√®Limone, 0);
+		mag.put(TipoCialda.caffË, 0);
+		mag.put(TipoCialda.caffËArabica, 0);
+		mag.put(TipoCialda.thË, 0);
+		mag.put(TipoCialda.thËLimone, 0);
 		mag.put(TipoCialda.cioccolata, 0);
 		mag.put(TipoCialda.camomilla, 0);
 		rifornimenti=new Rifornimenti();
@@ -29,30 +37,31 @@ public class Magazzino {
 	public ArrayList<Rifornimento> getRifornimenti() {
 		return rifornimenti.getRifornimenti();
 	}
+	
+	public void load() {
+		Connection connection = ConnectionFactory.getConnection();
+		try {
+			
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Magazzino");
+			while (rs.next()) { 
+				String Cialda = rs.getString("TipoCialda");
+				Integer Ammontare = rs.getInt("Ammontare");
+				mag.put(TipoCialda.fromString(Cialda), Ammontare);
 
-
-	public void load(String path) {
-		
-		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(path), Charset.forName("UTF-8")))) {
-
-		      String sCurrentLine;
-
-		      while ((sCurrentLine = br.readLine()) != null) {
-		    	  if(sCurrentLine.equals("MAGAZZINO")){
-		    		  while ((sCurrentLine = br.readLine()) != null) {
-		    			  if(sCurrentLine.equals("")) {
-		    				  rifornimenti.load(path);
-		    				  return;
-		    			  }
-		    			  String[] cialda = sCurrentLine.split(" ");
-		    			  mag.put(TipoCialda.fromString(cialda[0]), Integer.valueOf(cialda[1]));
-		    		  }
-		    	  }
-		      }
-		 } catch (IOException e) {
+			}
+			
+		 } catch (SQLException ex) {
 		 }	
+		finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
+	
 	
 	
 	public int numeroCialdeDisponibili(TipoCialda tipoCialda) {	
@@ -73,7 +82,22 @@ public class Magazzino {
 	public boolean rimuoviCialde(int numeroCialde,TipoCialda tipoCialda) {
 		if(numeroCialde<1)
 			return false;
-		mag.put(tipoCialda,mag.get(tipoCialda)-numeroCialde);
+		Connection connection = ConnectionFactory.getConnection();
+		//mag.put(tipoCialda,mag.get(tipoCialda)-numeroCialde);
+		try {
+			PreparedStatement ps = connection.prepareStatement("UPDATE Magazzino SET Ammontare=? WHERE TipoCialda=?");
+			ps.setInt(1,mag.get(tipoCialda)-numeroCialde);
+			ps.setString(2, tipoCialda.toString());
+			int i = ps.executeUpdate();
+			if (i == 1) {
+				mag.put(tipoCialda,mag.get(tipoCialda)-numeroCialde);
+				return true;
+			}
+		}
+		catch (SQLException ex) {
+		 
+		}	
+		
 		return true;
 	}
 	
