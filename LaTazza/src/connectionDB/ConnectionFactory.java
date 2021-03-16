@@ -36,4 +36,12 @@ public class ConnectionFactory {
 	          throw new RuntimeException("Error connecting to the database", ex);
 	      }
 	    }
+	    public static void closeConnection(Connection conn) {
+	    	try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	    	
+	    }
 }
