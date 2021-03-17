@@ -6,13 +6,20 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
 import application.model.utenti.Cliente;
+import application.model.utenti.PagamentoDebito;
 import application.model.utenti.Persona;
 import application.model.vendite.Vendita;
 import application.utils.TipoCialda;
+import connectionDB.ConnectionFactory;
 
 public class Vendite {
 
@@ -28,40 +35,80 @@ public class Vendite {
 	}
 	
 	
-	public void load(String path) {
+	public void load() {
 		
-		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(path), Charset.forName("UTF-8")))) {
-
-		      String sCurrentLine;
-
-		      while ((sCurrentLine = br.readLine()) != null) {
-		    	  if(sCurrentLine.equals("VENDITE")){
-		    		  while ((sCurrentLine = br.readLine()) != null) {
-		    			  if(sCurrentLine.equals(""))
-		    				  return;
-		    			  String[] vendita = sCurrentLine.split(" ");
+		Connection connection = ConnectionFactory.getConnection();
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Vendita");
+			while (rs.next()) {
+				String Cliente =rs.getString("Cliente");
+				String Cialda = rs.getString("TipoCialda");
+				int quantita = rs.getInt("quantità");
+				boolean incontanti = rs.getBoolean("incontanti");
+				Long Data = rs.getLong("Data");
+				
 		    			  vendite.add(new Vendita(
-		    					  new Persona(vendita[1]),
-		    					  Integer.valueOf(vendita[2]), 
-		    					  TipoCialda.fromString(vendita[3]), 
-		    					  Boolean.valueOf(vendita[4]),
-		    					  new Date(Long.valueOf(vendita[0]))));
+		    					  new Persona(Cliente),
+		    					  quantita,
+		    					  TipoCialda.fromString(Cialda),     					  
+		    					  incontanti,
+		    					  new Date(Long.valueOf(Data))));
 		    		  }
-		    	  }
-		      }
+		    	  
+		      
 
-		    } catch (IOException e) {
-		    }
+		    } catch (SQLException ex) {
+				ex.printStackTrace();
+			} finally {
+				ConnectionFactory.closeConnection(connection);
+			}
+		    
 	}
 	
 	
 	public boolean addVendita (Cliente cl, int quantita, TipoCialda tipoCialda, boolean cont) {
-		return vendite.add(new Vendita(cl, quantita, tipoCialda, cont));	
+		Connection connection = ConnectionFactory.getConnection();
+		try {
+			Vendita vd = new Vendita(cl, quantita, tipoCialda, cont);
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO Vendita VALUES ( ?, ? ,? ,?,?)");
+			ps.setString(1,cl.getNome());
+			ps.setString(2, tipoCialda.toString());
+			ps.setInt(3, quantita);
+			ps.setBoolean(4, cont);
+			ps.setLong(5, vd.getEpoch());
+			int i = ps.executeUpdate();
+			if (i == 1) {
+				return vendite.add(vd);
+			}
+		}catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			ConnectionFactory.closeConnection(connection);
+		}
+		return false;
 	}
 	
 	public boolean addVendita (Cliente cl, int quantita, TipoCialda tipoCialda, boolean cont, Date date) {
-		return vendite.add(new Vendita(cl, quantita, tipoCialda, cont, date));	
+		Connection connection = ConnectionFactory.getConnection();
+		try {
+			Vendita vd = new Vendita(cl, quantita, tipoCialda, cont,date);
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO Vendita VALUES ( ?, ? ,? ,?,?)");
+			ps.setString(1,cl.getNome());
+			ps.setString(2, tipoCialda.toString());
+			ps.setInt(3, quantita);
+			ps.setBoolean(4, cont);
+			ps.setLong(5,vd.getEpoch() );
+			int i = ps.executeUpdate();
+			if (i == 1) {
+				return vendite.add(vd);
+			}
+		}catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			ConnectionFactory.closeConnection(connection);
+		}
+		return false;	
 	}	
 	
 	public String print() {

@@ -49,17 +49,12 @@ public class Magazzino {
 				mag.put(TipoCialda.fromString(Cialda), Ammontare);
 
 			}
-				rifornimenti.load();
+			rifornimenti.load();
 		} catch (SQLException ex) {
-		} 
-		finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		} finally {
+			ConnectionFactory.closeConnection(connection);
 		}
-		
+
 	}
 
 	public int numeroCialdeDisponibili(TipoCialda tipoCialda) {
@@ -72,7 +67,7 @@ public class Magazzino {
 		Connection connection = ConnectionFactory.getConnection();
 		try {
 			PreparedStatement ps = connection.prepareStatement("UPDATE Magazzino SET Ammontare=? WHERE TipoCialda=?");
-			ps.setInt(1,mag.get(tipoCialda) + 50 * numScatole);
+			ps.setInt(1, mag.get(tipoCialda) + 50 * numScatole);
 			ps.setString(2, tipoCialda.toString());
 			int i = ps.executeUpdate();
 			if (i == 1) {
@@ -83,7 +78,7 @@ public class Magazzino {
 		} catch (SQLException ex) {
 
 		}
-	
+
 		return false;
 	}
 
@@ -103,6 +98,8 @@ public class Magazzino {
 			}
 		} catch (SQLException ex) {
 
+		} finally {
+			ConnectionFactory.closeConnection(connection);
 		}
 
 		return true;

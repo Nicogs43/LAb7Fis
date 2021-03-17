@@ -80,11 +80,11 @@ public class Controller {
 		ObservableList<TipoCialda> obsList = FXCollections.observableArrayList();
 		obsList.addAll(TipoCialda.values());
 
-		cassa.load(path);
-		magazzino.load(path);
-		vendite.load(path);
+		cassa.load();
+		magazzino.load();
+		vendite.load();
 		personale.load();
-
+	
 		venditaTipoCialdaCB.setItems(obsList);
 		rifTipoCialdaCB.setItems(obsList);
 		disponibilitaLabel.setText(cassa.toString());

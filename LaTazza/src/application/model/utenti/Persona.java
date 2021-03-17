@@ -53,10 +53,13 @@ public class Persona extends Cliente {
 				int i = ps1.executeUpdate();
 				if (i == 1)
 					return true;
+
 			}
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
+		} finally {
+			ConnectionFactory.closeConnection(connection);
 		}
 
 		return false;
@@ -84,6 +87,8 @@ public class Persona extends Cliente {
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
+		} finally {
+			ConnectionFactory.closeConnection(connection);
 		}
 		return false;
 

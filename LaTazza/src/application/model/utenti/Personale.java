@@ -51,20 +51,15 @@ public class Personale {
 			while (rs.next()) {
 				String Nome = rs.getString("NomePersona");
 				Integer Debito = rs.getInt("Ammontare");
-				// Date Data = rs.getDate("Data");
 				Long Data = rs.getLong("Data");
 				pagamentiDebito.add(new PagamentoDebito(new Persona(Nome), new Euro(0, Debito), new Date(Data)));
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		
+
 		finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			ConnectionFactory.closeConnection(connection);
 		}
 
 	}
@@ -83,13 +78,8 @@ public class Personale {
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		}
-		finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		} finally {
+			ConnectionFactory.closeConnection(connection);
 		}
 		return false;
 
@@ -119,13 +109,8 @@ public class Personale {
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		}
-		finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		} finally {
+			ConnectionFactory.closeConnection(connection);
 		}
 		return false;
 	}
@@ -144,13 +129,8 @@ public class Personale {
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		}
-		finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		} finally {
+			ConnectionFactory.closeConnection(connection);
 		}
 		return personaleConDebiti;
 	}
@@ -172,13 +152,8 @@ public class Personale {
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		}
-		finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		} finally {
+			ConnectionFactory.closeConnection(connection);
 		}
 		return false;
 	}

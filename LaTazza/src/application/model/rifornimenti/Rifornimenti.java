@@ -44,7 +44,7 @@ public class Rifornimenti {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
-			 ConnectionFactory.closeConnection(connection);
+			ConnectionFactory.closeConnection(connection);
 		}
 
 	}
@@ -64,11 +64,7 @@ public class Rifornimenti {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			ConnectionFactory.closeConnection(connection);
 		}
 		return false;
 
