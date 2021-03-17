@@ -2,9 +2,7 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+
 
 import java.io.File;
 
@@ -17,36 +15,55 @@ import application.utils.TipoCialda;
 
 class TestRifornimenti {
 	
-	Rifornimenti rifornimenti, rifornimentiEmpty;
-	int size = 10, numScatola = 1;
-	File file = new File("res/test.txt");
-
+	Rifornimenti rifornimenti;
+	int size =1 ,  numScatola = 21;
+	Rifornimento rf;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		rifornimentiEmpty= new Rifornimenti();
+		
 		
 		rifornimenti= new Rifornimenti();
-		for(int i=0; i<size; i++) {
-			rifornimenti.addRifornimento(numScatola,TipoCialda.caffè);
-		}
+		rifornimenti.load();
+		
+		
 	}
+	@Test
+	void testAddRifornimentoTrue() {
+		Rifornimento test = new Rifornimento(numScatola, TipoCialda.caffè);
+		int testsize = rifornimenti.getRifornimenti().size();
+		assertTrue(rifornimenti.addRifornimento(test.getNumeroScatole(), test.getTipoCialda()));
+		Rifornimento rf2 = rifornimenti.getRifornimenti().get(testsize);
+		rifornimenti.rimuoviRifornimentoTest(rf2);
 	
+	}
+	/*@Test
+	void testRimuoviTrue() {
+		Rifornimento test = new Rifornimento(numScatola, TipoCialda.caffè);
+		rifornimenti.addRifornimento(test.getNumeroScatole(), test.getTipoCialda());
+		int testsize = rifornimenti.getRifornimenti().size();
+		rifornimenti.rimuoviRifornimentoTest(test);
+		assertEquals(rifornimenti.getRifornimenti().size(),size-1);
+	}
 	
 	@Test
 	void testGetRifornimentiByTipoCialda() {
-		for(Rifornimento rif : rifornimenti.getRifornimenti()) {
-			assertEquals(rif.getTipoCialda(),TipoCialda.caffè);
-			assertEquals(rif.getNumeroScatole(),numScatola);
-		}
-	}
+		Rifornimento last = null;
+		rifornimenti.addRifornimento(numScatola, TipoCialda.caffè);
+		for(Rifornimento i:rifornimenti.getRifornimenti()) 
+			last=i;
+		
+		assertEquals(last.getTipoCialda(),TipoCialda.caffè);
+		assertEquals(last.getNumeroScatole(),numScatola);
+		rifornimenti.rimuoviRifornimentoTest(last);
+	}*/
 	
 	@Test
 	void testGetRifornimentiSize() {
-		assertEquals(rifornimenti.getRifornimenti().size(),size);
+		assertNotEquals(rifornimenti.getRifornimenti().size(),size);
 	}
 	
-	@Test
+	/*@Test
 	void testLoad() {
 
 		rifornimenti.addRifornimento(numScatola, TipoCialda.caffè);
@@ -76,5 +93,5 @@ class TestRifornimenti {
         file.delete();
 		assertEquals(rifornimentiEmpty.getRifornimenti().size(),0);
 	}
-	
+	*/
 }

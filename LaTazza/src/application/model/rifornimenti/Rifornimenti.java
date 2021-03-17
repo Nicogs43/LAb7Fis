@@ -69,6 +69,25 @@ public class Rifornimenti {
 		return false;
 
 	}
+	//Metodo usato solo per i test 
+	public boolean rimuoviRifornimentoTest(Rifornimento rf) {
+		Connection connection = ConnectionFactory.getConnection();
+		try {
+		PreparedStatement ps = connection.prepareStatement("DELETE FROM Rifornimento WHERE data= ?");
+		ps.setLong(1, rf.getEpoch());
+		int i = ps.executeUpdate();
+		if (i == 1) {
+			int k=rifornimenti.size();
+			rifornimenti.remove(k-1);
+			return true;
+			}
+		}catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			ConnectionFactory.closeConnection(connection);
+		}
+		return false;
+	}
 
 	public String print() {
 		String rifornimentoString = "RIFORNIMENTI\n";
