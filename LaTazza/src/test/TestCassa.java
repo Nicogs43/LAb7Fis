@@ -19,30 +19,31 @@ import application.utils.Euro;
 
 public class TestCassa {
 
-	Cassa cassa;
+	Cassa cassa=new Cassa();
+	Cassa cassaVuota=new Cassa();;
 	
 	@BeforeEach
 	void setUp() {
-		cassa=new Cassa();
+		cassa.load();
 	}
 	
 	@Test
 	void testVuotaOnCreate() {
-		assertTrue(cassa.getDisponibilita().ugualeA(new Euro(0)));
+		assertTrue(cassaVuota.getDisponibilita().ugualeA(new Euro(0)));
 	}
 	
 	@Test
 	void testEffettuaPagamentoSuperiore() {
-		assertFalse(cassa.effettuaPagamento(new Euro(42)));
+		int Disponibilità=(int)cassa.getDisponibilita().getValore();
+		assertFalse(cassa.effettuaPagamento(new Euro(Disponibilità+42)));
 	}
 
-	
 	@Test
 	void testEffettuaPagamento() {
 		cassa.riceviPagamento(new Euro(100));
 		assertTrue(cassa.effettuaPagamento(new Euro(42)));
+		assertTrue(cassa.effettuaPagamento(new Euro(58)));
 	}
-	
 	
 	@ParameterizedTest
 	@CsvSource({ "42","10"})
@@ -51,55 +52,14 @@ public class TestCassa {
 		Euro ammontareEuro = new Euro(ammontareInt); 
 		cassa.riceviPagamento(ammontareEuro);
 		assertTrue(cassa.getDisponibilita().ugualeA(disponibilitaIniziale.somma(ammontareEuro)));
+		cassa.effettuaPagamento(new Euro(42));
+		assertEquals(cassa.getDisponibilita(), disponibilitaIniziale);
 	}
 	
 	@ParameterizedTest
 	@CsvSource({ "-42","-10"})
 	void testRiceviPagamentoNeg(int ammontareInt) {
 		assertFalse(cassa.riceviPagamento(new Euro(ammontareInt)));
-	}
-	
-	
-	@Test
-	void testToString() {
-		assertEquals(cassa.toString(),"0.00");
-	}
-	
-	
-	@Test
-	void testPrint() {
-		assertEquals(cassa.print(),"CASSA\n0\n\n");
-	}
-	
-	
-	@Test 
-	void testLoad() {
-		String str="";
-		try {
-			FileWriter fileWriter = new FileWriter("res/pippo.txt", false);
-			PrintWriter printWriter = new PrintWriter(fileWriter);
-			printWriter.print(str=cassa.print());
-			printWriter.close();
-		} catch (IOException e) {
-		}
-		cassa=new Cassa();
-		cassa.load("res/pippo.txt");
-		new File("res/pippo.txt").delete();
-		assertEquals(cassa.print(),str);
-	}
-	
-	@Test
-	void testLoadFileNotExists() {
-		cassa.load("res/pippo.txt");
-		assertTrue(cassa.getDisponibilita().ugualeA(new Euro(2000)));
-	}
-	
-	@Test
-	void testLoadFileWithNoCassa() {
-		File file = new File("res/test.txt");
-		cassa.load("res/test.txt");
-        file.delete();
-		assertTrue(cassa.getDisponibilita().ugualeA(new Euro(2000)));
 	}
 	
 }
