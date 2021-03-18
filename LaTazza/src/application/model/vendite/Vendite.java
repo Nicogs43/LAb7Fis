@@ -111,6 +111,27 @@ public class Vendite {
 		return false;	
 	}	
 	
+	//METEDO PER I TEST
+		public boolean deleteVendita (Vendita vd) {
+			Connection connection = ConnectionFactory.getConnection();
+			try {
+				PreparedStatement ps = connection.prepareStatement("DELETE FROM Vendita WHERE Cliente=? AND Data=?");
+				ps.setString(1,vd.getCliente().getNome());		
+				ps.setLong(2, vd.getEpoch() );
+				int i = ps.executeUpdate();
+				if (i == 1) {
+					vendite.remove(vendite.size()-1);
+					return true;
+				}
+			}catch (SQLException ex) {
+				ex.printStackTrace();
+			} finally {
+				ConnectionFactory.closeConnection(connection);
+			}
+			return false;
+		}
+		
+	
 	public String print() {
 		String venditeString="VENDITE\n";
 		for(Vendita vend : vendite)
