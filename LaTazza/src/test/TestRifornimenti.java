@@ -1,5 +1,6 @@
 package test;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -30,20 +31,26 @@ class TestRifornimenti {
 	}
 	@Test
 	void testAddRifornimentoTrue() {
-		Rifornimento test = new Rifornimento(numScatola, TipoCialda.caffè);
+		Rifornimento test = null;
 		int testsize = rifornimenti.getRifornimenti().size();
-		assertTrue(rifornimenti.addRifornimento(test.getNumeroScatole(), test.getTipoCialda()));
-		Rifornimento rf2 = rifornimenti.getRifornimenti().get(testsize);
-		rifornimenti.rimuoviRifornimentoTest(rf2);
+		rifornimenti.addRifornimento(numScatola, TipoCialda.caffè);
+		for(Rifornimento i:rifornimenti.getRifornimenti()) 
+			test=i;
+		
+		assertEquals(rifornimenti.getRifornimenti().size(),testsize+1);
+		rifornimenti.rimuoviRifornimentoTest(test);
 	
 	}
-	/*@Test
+	@Test
 	void testRimuoviTrue() {
-		Rifornimento test = new Rifornimento(numScatola, TipoCialda.caffè);
-		rifornimenti.addRifornimento(test.getNumeroScatole(), test.getTipoCialda());
+		Rifornimento test = null;
+		rifornimenti.addRifornimento(numScatola , TipoCialda.caffè);
 		int testsize = rifornimenti.getRifornimenti().size();
+		for(Rifornimento i:rifornimenti.getRifornimenti()) 
+			test=i;
+		
 		rifornimenti.rimuoviRifornimentoTest(test);
-		assertEquals(rifornimenti.getRifornimenti().size(),size-1);
+		assertEquals(rifornimenti.getRifornimenti().size(),testsize-1);
 	}
 	
 	@Test
@@ -56,7 +63,7 @@ class TestRifornimenti {
 		assertEquals(last.getTipoCialda(),TipoCialda.caffè);
 		assertEquals(last.getNumeroScatole(),numScatola);
 		rifornimenti.rimuoviRifornimentoTest(last);
-	}*/
+	}
 	
 	@Test
 	void testGetRifornimentiSize() {
@@ -92,6 +99,6 @@ class TestRifornimenti {
 		rifornimentiEmpty.load("res/test.txt");
         file.delete();
 		assertEquals(rifornimentiEmpty.getRifornimenti().size(),0);
-	}
-	*/
+	}*/
+	
 }
