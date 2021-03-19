@@ -16,11 +16,11 @@ import application.model.Cassa;
 import application.utils.Euro;
 
 
-
+//Commit
 public class TestCassa {
 
 	Cassa cassa=new Cassa();
-	Cassa cassaVuota=new Cassa();;
+	Cassa cassaVuota=new Cassa();
 	
 	@BeforeEach
 	void setUp() {

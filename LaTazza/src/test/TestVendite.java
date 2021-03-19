@@ -2,21 +2,13 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 
-import org.junit.Before;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 
 import application.model.utenti.Persona;
 import application.model.vendite.Vendita;
@@ -24,7 +16,7 @@ import application.model.vendite.Vendite;
 import application.utils.TipoCialda;
 
 @TestMethodOrder(OrderAnnotation.class)
-
+//Commit
 public class TestVendite {
 
 	Vendite venditeEmpty;
