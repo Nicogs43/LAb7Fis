@@ -16,7 +16,7 @@ import application.model.vendite.Vendite;
 import application.utils.TipoCialda;
 
 @TestMethodOrder(OrderAnnotation.class)
-//Commit
+
 public class TestVendite {
 
 	Vendite venditeEmpty;

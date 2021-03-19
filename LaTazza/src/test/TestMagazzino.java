@@ -16,7 +16,7 @@ import application.model.rifornimenti.Magazzino;
 import application.model.rifornimenti.Rifornimenti;
 import application.model.rifornimenti.Rifornimento;
 import application.utils.TipoCialda;
-//Testcommit
+
 class TestMagazzino {
 	
 	Magazzino magazzino=new Magazzino();

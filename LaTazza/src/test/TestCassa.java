@@ -16,7 +16,7 @@ import application.model.Cassa;
 import application.utils.Euro;
 
 
-//Commit
+
 public class TestCassa {
 
 	Cassa cassa=new Cassa();
