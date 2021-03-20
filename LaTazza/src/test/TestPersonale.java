@@ -2,6 +2,7 @@ package test;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
+import application.model.utenti.PagamentoDebito;
 import application.model.utenti.Persona;
 import application.model.utenti.Personale;
 import application.utils.Euro;
@@ -14,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(OrderAnnotation.class)
-class OrderedTestsDemo {
+class TestPersonale {
 
 	Personale personale;
 	int i;
@@ -58,7 +59,10 @@ class OrderedTestsDemo {
 		assertEquals(personale.getIndebitati().size(), i+1);
 		personale.diminuisciDebito(p, new Euro(5));
 		personale.removePersona(p);
+		PagamentoDebito last = estraiUltimoPagamentoDebito();
+		personale.rimuoviPagamentoDiDebito(last);
 	}
+
 
 	@Test
 	@Order(4)
@@ -66,13 +70,17 @@ class OrderedTestsDemo {
 		i = personale.getIndebitati().size();
 		Persona p = new Persona("persona1");
 		personale.addPersona(p.getNome());
+		p.aumentaDebito(new Euro(5));
 		for (Persona persona : personale.getPersonale()) {
 			if (persona.getNome() == p.getNome()) {
-				personale.diminuisciDebito(p, new Euro(0));
+				personale.diminuisciDebito(p, new Euro(5));
 			}
 		}
 		assertEquals(p.getDebito(), new Euro(0));
+		PagamentoDebito last = estraiUltimoPagamentoDebito();
 		personale.removePersona(p);
+		personale.rimuoviPagamentoDiDebito(last);
+		
 	}
 
 	@Test
@@ -83,6 +91,12 @@ class OrderedTestsDemo {
 		personale.addPersona(p.getNome());
 		assertEquals(personale.getPersonale().size(), i+1);
 		personale.removePersona(p);
+	}
+	private PagamentoDebito estraiUltimoPagamentoDebito() {
+		PagamentoDebito last=null;
+		for(PagamentoDebito i : personale.getPagamentiDebito())
+			last=i;
+		return last;
 	}
 
 }
