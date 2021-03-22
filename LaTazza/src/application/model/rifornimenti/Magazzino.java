@@ -1,10 +1,5 @@
 package application.model.rifornimenti;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,8 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import application.model.utenti.Persona;
-import application.utils.Euro;
+
 import application.utils.TipoCialda;
 import connectionDB.ConnectionFactory;
 
@@ -86,7 +80,6 @@ public class Magazzino {
 		if (numeroCialde < 1)
 			return false;
 		Connection connection = ConnectionFactory.getConnection();
-		// mag.put(tipoCialda,mag.get(tipoCialda)-numeroCialde);
 		try {
 			PreparedStatement ps = connection.prepareStatement("UPDATE Magazzino SET Ammontare=? WHERE TipoCialda=?");
 			ps.setInt(1, mag.get(tipoCialda) - numeroCialde);

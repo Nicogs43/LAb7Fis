@@ -1,10 +1,10 @@
 package application.utils;
 
 public enum TipoCialda {
-	caffË,
-	caffËArabica,
-	thË,
-	thËLimone,
+	caff√®,
+	caff√®Arabica,
+	th√®,
+	th√®Limone,
 	cioccolata,
 	camomilla;
 	
@@ -13,9 +13,9 @@ public enum TipoCialda {
 	public static TipoCialda fromString(String str) {
 	    switch(str) {
 	    case "caff√®Arabica":
-	        return TipoCialda.caffËArabica;
+	        return TipoCialda.caff√®Arabica;
 	    case "caff√®":
-	        return TipoCialda.caffË;
+	        return TipoCialda.caff√®;
 	    case "camomilla":
 	        return TipoCialda.camomilla;
 	    case "th√®":

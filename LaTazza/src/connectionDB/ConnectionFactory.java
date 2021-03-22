@@ -23,15 +23,6 @@ public class ConnectionFactory {
 		return PASS;
 	}
 
-	/**
-	 * Connect to Database
-	 */
-
-	/**
-	 * Get a connection to database
-	 * 
-	 * @return Connection object
-	 */
 	public static Connection getConnection() {
 		try {
 			DriverManager.registerDriver(new Driver());

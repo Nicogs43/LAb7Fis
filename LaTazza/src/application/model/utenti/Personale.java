@@ -157,25 +157,27 @@ public class Personale {
 		}
 		return false;
 	}
-	//Metodo usato solo per i test 
-	public boolean rimuoviPagamentoDiDebito(PagamentoDebito pd ) {
+
+	// Metodo usato solo per i test
+	public boolean rimuoviPagamentoDiDebito(PagamentoDebito pd) {
 		Connection connection = ConnectionFactory.getConnection();
 		try {
-		
-		PreparedStatement ps = connection.prepareStatement("DELETE FROM PagamentoDiDebito WHERE data= ? AND NomePersona =?");
-		ps.setLong(1, pd.getEpoch());
-		ps.setString(2, pd.getPersona().getNome());
-		int i = ps.executeUpdate();
-		if (i == 1) {
-			pagamentiDebito.remove(pd);
+
+			PreparedStatement ps = connection
+					.prepareStatement("DELETE FROM PagamentoDiDebito WHERE data= ? AND NomePersona =?");
+			ps.setLong(1, pd.getEpoch());
+			ps.setString(2, pd.getPersona().getNome());
+			int i = ps.executeUpdate();
+			if (i == 1) {
+				pagamentiDebito.remove(pd);
 			}
-		}catch (SQLException ex) {
+		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
 			ConnectionFactory.closeConnection(connection);
 		}
 		return false;
-	
+
 	}
 
 	public String print() {

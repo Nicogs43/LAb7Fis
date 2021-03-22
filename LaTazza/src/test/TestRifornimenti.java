@@ -4,9 +4,6 @@ package test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-
-import java.io.File;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -69,36 +66,5 @@ class TestRifornimenti {
 	void testGetRifornimentiSize() {
 		assertNotEquals(rifornimenti.getRifornimenti().size(),size);
 	}
-	
-	/*@Test
-	void testLoad() {
-
-		rifornimenti.addRifornimento(numScatola, TipoCialda.caffè);
-		String str="";
-		try {
-			FileWriter fileWriter = new FileWriter("res/test.txt", false);
-			PrintWriter printWriter = new PrintWriter(fileWriter);
-			printWriter.print(str=rifornimenti.print());
-			printWriter.close();
-		} catch (IOException e) {
-		}
-		rifornimentiEmpty.load("res/test.txt");
-        file.delete();
-		assertEquals(rifornimentiEmpty.print(),str);
-	}
-	
-	
-	@Test
-	void testLoadFileNotExists() {
-		rifornimentiEmpty.load("res/test5.txt");
-		assertEquals(rifornimentiEmpty.getRifornimenti().size(),0);
-	}
-	
-	@Test
-	void testLoadFileWithNoRifornimenti() {
-		rifornimentiEmpty.load("res/test.txt");
-        file.delete();
-		assertEquals(rifornimentiEmpty.getRifornimenti().size(),0);
-	}*/
 	
 }

@@ -48,30 +48,6 @@ class TestPersona {
 		assertEquals(persona.getDebito(), debito);
 	}
 
-	/*@Test
-	void testAumentaDebitoPos() {
-		Euro pagamento = new Euro(5.0);
-		assertTrue(persona.aumentaDebito(pagamento));
-		assertEquals(persona.getDebito(), debito.somma(pagamento));
-	}
-	
-	@Test
-	void testAumentaDebitoNeg() {
-		assertFalse(persona.aumentaDebito(new Euro(-5.0)));
-	}
-	
-	@Test
-	void testDiminuisciDebitoPos() {
-		Euro pagamento = new Euro(5.0);
-		assertTrue(persona.diminuisciDebito(pagamento));
-		assertEquals(persona.getDebito(), debito.sottrai(pagamento));
-	}
-	
-	@Test
-	void testDiminuisciDebitoNeg() {
-		assertFalse(persona.diminuisciDebito(new Euro(-5.0)));
-	}
-*/
 	@Test
 	void testToString() {
 		assertEquals(persona.toString(), "test");
